@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 
 import { dispatchDataDevices, dispatchLogout } from "../../store/store"
@@ -16,6 +16,8 @@ export default function ContainerDevice() {
   const HOST = useSelector((state) => state.user.HOST)
   const devices = useSelector((state) => state.data.devices)
 
+  const [isError, setIsError] = useState(false)
+
   useEffect(() => {
     const getDevices = async () => {
       try {
@@ -25,6 +27,8 @@ export default function ContainerDevice() {
       } catch (err) {
         const status = err.status && typeof err.status === "number" ? err.status : err.response && err.response.status ? err.response.status : 500
         const message = err.response && err.response.data.message ? err.response.data.message : "Internal Server Error"
+
+        setIsError(true)
 
         toast.error(message, {
           position: "top-right",
@@ -48,6 +52,16 @@ export default function ContainerDevice() {
 
     getDevices()
   }, [])
+
+  if (isError)
+    return (
+      <>
+        <div className="px-4 py-3">
+          <h5>Devices (0)</h5>
+        </div>
+        <div className="d-flex justify-content-center px-2 py-5">connection error</div>
+      </>
+    )
 
   if (devices.length === 0)
     return (

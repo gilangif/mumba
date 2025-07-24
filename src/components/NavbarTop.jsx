@@ -39,6 +39,7 @@ export default function NavbarTop() {
   const online = useSelector((state) => state.user.online)
   const totalOnline = useSelector((state) => state.user.totalOnline)
 
+  const HOST = useSelector((state) => state.user.HOST)
   const name = useSelector((state) => state.user.name)
   const username = useSelector((state) => state.user.username)
   const role = useSelector((state) => state.user.role)
@@ -173,7 +174,7 @@ export default function NavbarTop() {
       e.preventDefault()
 
       const accessToken = localStorage.getItem("accessToken")
-      const { data } = await axios.post("http://localhost:3000/users/dana/add", { text }, { headers: { Authorization: `Bearer ${accessToken}` } })
+      const { data } = await axios.post(HOST + "/users/dana/add", { text }, { headers: { Authorization: `Bearer ${accessToken}` } })
       const { ALIPAYJSESSIONID, creator, result, message } = data
 
       dispatch(dispatchDataUsersAdd({ creator, ALIPAYJSESSIONID, dana: result, logs: [], start: new Date() }))

@@ -1,7 +1,9 @@
+import ContainerLoading from "../components/ContainerLoading"
+
 export default function Profile() {
   return (
     <>
-      <h1 className="text-danger">Profile</h1>
+      <ContainerLoading note="This feature is currently under development and will be available soon." />
     </>
   )
 }
