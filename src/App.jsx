@@ -18,6 +18,7 @@ import LiveChats from "./pages/LiveChats"
 import Claims from "./pages/Claims"
 import Profile from "./pages/Profile"
 import Opank from "./pages/Opank"
+import NotFound from "./pages/NotFound"
 
 const config = { device: {}, start: new Date() }
 
@@ -171,6 +172,7 @@ function App() {
                 <Route path="/chats/opank" element={<Opank />} />
                 <Route path="/claims" element={<Claims />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="*" element={<NotFound />} />
               </Route>
             </Route>
           </Routes>

@@ -2,7 +2,7 @@ import { dispatchDataUsers } from "../../store/store"
 
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 
 import axios from "axios"
@@ -15,6 +15,8 @@ export default function ContainerUser() {
   const HOST = useSelector((state) => state.user.HOST)
   const users = useSelector((state) => state.data.users)
 
+  const [isError, setIsError] = useState(false)
+
   useEffect(() => {
     const getUsers = async () => {
       try {
@@ -25,6 +27,8 @@ export default function ContainerUser() {
         const status = err.status && typeof err.status === "number" ? err.status : err.response && err.response.status ? err.response.status : 500
         const message = err.response && err.response.data.message ? err.response.data.message : "Internal Server Error"
 
+        setIsError(true)
+        
         toast.error(message, {
           position: "top-right",
           autoClose: 1500,
@@ -47,6 +51,16 @@ export default function ContainerUser() {
 
     getUsers()
   }, [])
+
+  if (isError)
+    return (
+      <>
+        <div className="px-4 py-3">
+          <h5>Users (0)</h5>
+        </div>
+        <div className="d-flex justify-content-center px-2 py-5">connection error</div>
+      </>
+    )
 
   if (users.length === 0)
     return (
