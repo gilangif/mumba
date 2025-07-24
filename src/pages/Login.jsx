@@ -47,7 +47,7 @@ export default function Login() {
     <div className="container vh-100 d-flex justify-content-center align-items-center">
       <form onSubmit={handleSubmit} className="form-signin" style={{ maxWidth: "420px" }}>
         <div className="text-center mb-6">
-          <img className="mb-4" src="https://getbootstrap.com/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72" />
+          <img className="mb-4" src="/src/assets/oyen.png" alt="" width="110" height="110" />
           <h1 className="h3 mb-2 font-weight-normal">Welcome back</h1>
           <p>You can sign in to access with your existing account.</p>
         </div>
@@ -60,7 +60,7 @@ export default function Login() {
           <input type="password" id="inputPassword" className="form-control" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
 
-        <button className="btn btn-lg btn-primary btn-block" type="submit">
+        <button className="btn btn-lg btn-sm btn-primary btn-block w-100 p-2" type="submit">
           Sign in
         </button>
       </form>
