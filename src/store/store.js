@@ -2,8 +2,8 @@ import { configureStore } from "@reduxjs/toolkit"
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-  HOST: "http://192.168.68.78:3000",
-  API: "http://192.168.68.78:3001",
+  HOST: "http://localhost:80",
+  API: "http://localhost:3000",
   accessToken: localStorage.getItem("accessToken") || "",
   username: localStorage.getItem("username") || "",
   name: localStorage.getItem("name") || "",
