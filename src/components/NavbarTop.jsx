@@ -52,7 +52,7 @@ export default function NavbarTop() {
   const toggleTheme = () => {
     const theme = {
       mode: mode === "dark" ? "light" : "dark",
-      background: mode === "dark" ? "bg-white" : "bg-dark",
+      background: mode === "dark" ? "bg-light" : "bg-dark",
       color: mode === "dark" ? "text-dark" : "text-light",
     }
 
@@ -280,7 +280,7 @@ export default function NavbarTop() {
         </div>
       </div>
 
-      <nav className={`navbar ${background} ${color}`} style={style.navbarContainer}>
+      <nav className={`navbar  ${mode == "dark" ? background : "bg-white"} ${color}`} style={style.navbarContainer}>
         <div className="row w-100">
           <div className="col px-4 py-1 d-flex flex-column justify-content-center align-items-start">
             <h5 className="m-0">Hi {name}</h5>

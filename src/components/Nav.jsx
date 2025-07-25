@@ -5,8 +5,8 @@ import { useLocation, Link } from "react-router-dom"
 const style = {
   userSelect: {
     userSelect: "none",
-    cursor: "pointer"
-  }
+    cursor: "pointer",
+  },
 }
 
 function NavItems({ to, active, icon, stylesheet = "", onClick }) {
@@ -21,7 +21,7 @@ function NavItems({ to, active, icon, stylesheet = "", onClick }) {
 
   if (active && to === "/chats/live") {
     return (
-      <div className={`text-center ${stylesheet}`} onClick={() => handleScroll()}>
+      <div className={`text-center ${stylesheet}`} onClick={() => handleScroll()} style={style.userSelect}>
         <span className={`material-symbols-outlined p-2 ${active ? "text-warning" : color}`} style={{ scale: "1.2" }}>
           arrow_downward
         </span>
@@ -30,7 +30,7 @@ function NavItems({ to, active, icon, stylesheet = "", onClick }) {
   }
 
   return (
-    <div className={`text-center ${stylesheet}`}>
+    <div className={`text-center ${stylesheet}`} style={style.userSelect}>
       <Link to={to}>
         <span className={`material-symbols-outlined p-2 ${active ? "text-warning" : color}`} style={{ scale: "1.2" }}>
           {icon}
@@ -51,11 +51,11 @@ export default function Nav() {
     { to: "/chats/live", icon: "chat" },
     { to: "/chats/opank", icon: "pets" },
     { to: "/claims", icon: "acute" },
-    { to: "/profile", icon: "account_circle", right: true },
+    { to: "/others", icon: "build", right: true },
   ]
 
   return (
-    <nav className={`navbar fixed-bottom p-1 w-100 ${background} ${color}`}>
+    <div className={`navbar fixed-bottom p-1 w-100 ${color} ${mode == "dark" ? background : "bg-white"}`}>
       <div className="d-flex justify-content-around justify-content-lg-start w-100 m-0 p-0 px-3 py-2 py-lg-0 gap-3" style={style.userSelect}>
         {items.map((x, i) => {
           const active = location.pathname === x.to
@@ -64,6 +64,6 @@ export default function Nav() {
           return <NavItems key={i} to={x.to} active={active} icon={x.icon} stylesheet={stylesheet} onClick={() => {}} />
         })}
       </div>
-    </nav>
+    </div>
   )
 }

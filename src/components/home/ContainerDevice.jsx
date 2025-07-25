@@ -34,8 +34,8 @@ export default function ContainerDevice() {
           position: "top-right",
           autoClose: 1500,
           hideProgressBar: true,
-          closeOnClick: false,
-          pauseOnHover: true,
+          closeOnClick: true,
+          pauseOnHover: false,
           draggable: true,
           progress: undefined,
           theme: "colored",
@@ -78,7 +78,7 @@ export default function ContainerDevice() {
       <div className="px-4 py-3">
         <h5>Devices ({devices.length})</h5>
       </div>
-      <div className="d-flex flex-wrap gap-2 px-3 mt-3">
+      <div className="d-flex flex-wrap gap-2 px-3 mt-3 mb-4">
         {devices.map((x, i) => {
           return (
             <CardDevice
@@ -87,7 +87,7 @@ export default function ContainerDevice() {
               image={x.thumb}
               community={x.community}
               id={x.id}
-              alipay={x.ALIPAYJSESSIONID}
+              alipay={x.dana && x.dana.ALIPAYJSESSIONID ? x.dana.ALIPAYJSESSIONID : "-"}
               balance={x.dana ? x.dana.balanceDisplay : null}
               percentage={x.battery ? x.battery.percentage : null}
               status={x.battery ? x.battery.status : null}
