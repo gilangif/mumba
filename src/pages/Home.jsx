@@ -2,8 +2,8 @@ import { useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 
 import NavbarTop from "../components/NavbarTop"
-import ContainerRecommended from "../components/ContainerRecommended"
 
+import ContainerRecommended from "../components/home/ContainerRecommended"
 import ContainerDevice from "../components/home/ContainerDevice"
 import ContainerUser from "../components/home/ContainerUser"
 import ModalResult from "../components/home/ModalContainer"

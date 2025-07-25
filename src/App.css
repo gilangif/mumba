@@ -8,12 +8,11 @@
 }
 
 body {
-  /* background: #212529; */
-  /* background: #ffffff; */
   margin: 0;
   padding: 0;
   min-height: 100vh;
 }
+
 
 html,
 body,
@@ -48,7 +47,6 @@ body,
 }
 
 
-
 .background-blur {
   position: fixed;
   top: 0;
@@ -80,7 +78,6 @@ body,
 
 }
 
-
 .text-5 {
   font-size: 0.5rem;
 }
@@ -101,8 +98,6 @@ body,
   font-size: 0.9rem;
 }
 
-
-
 .text-disabled {
   color: rgba(214, 212, 212, 0.6)
 }
@@ -113,7 +108,9 @@ body,
 
 .hide-scroll {
   scrollbar-width: none;
-  /* Firefox */
   -ms-overflow-style: none;
-  /* IE/Edge */
+}
+
+.position-relative:hover .hover-overlay {
+  opacity: 1 !important;
 }

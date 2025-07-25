@@ -14,8 +14,8 @@ export default function Login() {
   const HOST = useSelector((state) => state.user.HOST)
   const API = useSelector((state) => state.user.HOST)
 
-  const [username, setUsername] = useState("gilangif")
-  const [password, setPassword] = useState("gilangif")
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
 
   const handleSubmit = async (e) => {
     try {
@@ -35,11 +35,33 @@ export default function Login() {
       localStorage.setItem("username", login.username)
       localStorage.setItem("accessToken", login.accessToken)
 
-      Swal.fire({ icon: "success", title: `Welcome back ${login.name}`, draggable: true })
+      Swal.fire({
+        icon: "success",
+        title: `Welcome back ${login.name}`,
+        draggable: true,
+        didOpen: () => {
+          const titleEl = Swal.getTitle()
+          const contentEl = Swal.getHtmlContainer()
+
+          if (titleEl) titleEl.style.fontSize = "1rem"
+          if (contentEl) contentEl.style.fontSize = "0.9rem"
+        },
+      })
 
       navigate("/")
     } catch (error) {
-      Swal.fire({ icon: "error", title: "Login Failed", text: error.response?.data?.message || "Something went wrong" })
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: error.response?.data?.message || "Something went wrong",
+        didOpen: () => {
+          const titleEl = Swal.getTitle()
+          const contentEl = Swal.getHtmlContainer()
+
+          if (titleEl) titleEl.style.fontSize = "1rem"
+          if (contentEl) contentEl.style.fontSize = "0.9rem"
+        },
+      })
     }
   }
 
