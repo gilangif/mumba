@@ -216,7 +216,7 @@ export default function Opank() {
           )
         })}
       </div>
-      <div className={`d-flex position-fixed align-items-center bg-dark w-100 py-2 px-3 gap-3 ${background} ${color}`} style={{ height: "55px", bottom: "60px", zIndex: "1000" }}>
+      <div className={`d-flex position-fixed align-items-center w-100 py-2 px-3 gap-3 ${background} ${color}`} style={{ height: "55px", bottom: "60px", zIndex: "1000" }}>
         <div className="m-0 border-0 w-100 h-100">
           <input
             type="text"

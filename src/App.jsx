@@ -12,13 +12,14 @@ import timestamp from "./utils/timestamp"
 import "./App.css"
 import Layout from "./Layout"
 
-import Login from "./pages/Login"
 import Home from "./pages/Home"
-import LiveChats from "./pages/LiveChats"
-import Claims from "./pages/Claims"
-import Profile from "./pages/Profile"
 import Opank from "./pages/Opank"
+import Login from "./pages/Login"
+import Groups from "./pages/Groups"
+import Claims from "./pages/Claims"
+import Others from "./pages/Others"
 import NotFound from "./pages/NotFound"
+import LiveChats from "./pages/LiveChats"
 
 const config = { device: {}, start: new Date() }
 
@@ -75,7 +76,7 @@ function App() {
           position: "top-right",
           autoClose: 500,
           hideProgressBar: false,
-          closeOnClick: false,
+          closeOnClick: true,
           pauseOnHover: false,
           draggable: true,
           progress: undefined,
@@ -100,7 +101,7 @@ function App() {
         position: "top-right",
         autoClose: 500,
         hideProgressBar: false,
-        closeOnClick: false,
+        closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
@@ -171,7 +172,8 @@ function App() {
                 <Route path="/chats/live" element={<LiveChats />} />
                 <Route path="/chats/opank" element={<Opank />} />
                 <Route path="/claims" element={<Claims />} />
-                <Route path="/profile" element={<Profile />} />
+                <Route path="/others" element={<Others />} />
+                <Route path="/groups" element={<Groups />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Route>

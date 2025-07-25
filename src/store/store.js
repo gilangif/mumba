@@ -2,8 +2,8 @@ import { configureStore } from "@reduxjs/toolkit"
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-  HOST: "http://localhost:80",
-  API: "http://localhost:3000",
+  HOST: "http://128.199.70.155:80",
+  API: "http://128.199.70.155:3000",
   accessToken: localStorage.getItem("accessToken") || "",
   username: localStorage.getItem("username") || "",
   name: localStorage.getItem("name") || "",
@@ -70,9 +70,9 @@ const userSlice = createSlice({
 const themeSlice = createSlice({
   name: "theme",
   initialState: {
-    mode: localStorage.getItem("mode") || "light",
-    background: localStorage.getItem("background") || "bg-light",
-    color: localStorage.getItem("color") || "text-dark",
+    mode: localStorage.getItem("mode") || "dark",
+    background: localStorage.getItem("background") || "bg-dark",
+    color: localStorage.getItem("color") || "text-light",
   },
   reducers: {
     dispatchTheme: (state, action) => {
