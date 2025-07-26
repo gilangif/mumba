@@ -113,7 +113,7 @@ export default function Claims() {
     <>
       <div className="px-3 py-4">
         <h5>Today board:</h5>
-        <p className="fw-bold text-8">Rp.{new Intl.NumberFormat("id-ID").format(today)}</p>
+        <p className="fw-bold text-8 text-warning">Rp.{new Intl.NumberFormat("id-ID").format(today)}</p>
 
         <div className="py-3 mb-2">
           <ul className="px-4">
@@ -125,7 +125,7 @@ export default function Claims() {
                 return (
                   <li className="text-8" key={i}>
                     <span className={`fw-bold ${x[1].community === username ? "text-warning" : ""}`}>{x[0]}</span>: Rp.
-                    {role === "admin" || x.community === username ? amount : amount.toString().replace(/./g, "*")}
+                    {role === "admin" || x[1].community === username ? amount : amount.toString().replace(/./g, "*")}
                   </li>
                 )
               })}
@@ -142,8 +142,12 @@ export default function Claims() {
                 const amount = new Intl.NumberFormat("id-ID").format(x[1].today)
 
                 return (
-                  <li className="text-8" key={i}>
-                    <span className="fw-bold">{x[0]}</span>: Rp.{role === "admin" || x.community === username ? amount : amount.toString().replace(/./g, "*")}
+                  <li className="text-8 mb-2" key={i}>
+                    <span className={`fw-bold ${x[0] === username ? "text-warning" : ""}`}>{x[0]}</span>:
+                    <ul>
+                      <li className="text-8"> {x[1].member} member</li>
+                      <li className="text-8"> amount Rp.{role === "admin" || x[0] === username ? amount : amount.toString().replace(/./g, "*")}</li>
+                    </ul>
                   </li>
                 )
               })}
