@@ -61,7 +61,7 @@ function UserCardSheetButton({ icon, title, onClick }) {
   )
 }
 
-export default function CardUser({ image, nickname, community, creator, alipay, balance, start, data }) {
+export default function CardUser({ image, model, nickname, community, creator, alipay, balance, start, data }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -125,10 +125,10 @@ export default function CardUser({ image, nickname, community, creator, alipay, 
     }
   }
 
-  const removeUser = async (nickname) => {
+  const removeUser = async (model) => {
     try {
       const confirm = await Swal.fire({
-        title: `REMOVE ${nickname} ?`,
+        title: `REMOVE ${model} ?`,
         text: "You won't be able to revert this",
         icon: "warning",
         showCancelButton: true,
@@ -163,10 +163,11 @@ export default function CardUser({ image, nickname, community, creator, alipay, 
       if (!confirm.isConfirmed) return
 
       const accessToken = localStorage.getItem("accessToken")
-      const { data } = await axios.post(HOST + "/users/dana/remove", { nickname }, { headers: { Authorization: `Bearer ${accessToken}` } })
+      const { data } = await axios.post(HOST + "/users/dana/remove", { model }, { headers: { Authorization: `Bearer ${accessToken}` } })
+      console.log("📢[:167]: ", data)
       const { message } = data
 
-      dispatch(dispatchDataUsersRemove(nickname))
+      dispatch(dispatchDataUsersRemove(model))
       setSheet(false)
 
       toast.success(message, {
@@ -180,6 +181,7 @@ export default function CardUser({ image, nickname, community, creator, alipay, 
         theme: "colored",
       })
     } catch (err) {
+      console.log("📢[:184]: ", err)
       const status = err.status && typeof err.status === "number" ? err.status : err.response && err.response.status ? err.response.status : 500
       const message = err.response && err.response.data.message ? err.response.data.message : "Internal Server Error"
 
@@ -278,7 +280,7 @@ export default function CardUser({ image, nickname, community, creator, alipay, 
                   <UserCardSheetButton icon="timer" title={duration} />
                   <UserCardSheetButton icon="content_copy" title="COPY SESSION" onClick={() => clipboard(alipay)} />
                   <UserCardSheetButton icon="download" title="VIEW EXISTS DATA" onClick={() => viewData()} />
-                  <UserCardSheetButton icon="delete" title="REMOVE" onClick={() => removeUser(nickname)} />
+                  <UserCardSheetButton icon="delete" title="REMOVE" onClick={() => removeUser(model)} />
                   <UserCardSheetButton icon="science" title="CHECK" onClick={() => checkSession(alipay)} />
                 </div>
               </div>

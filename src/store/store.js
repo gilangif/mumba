@@ -107,7 +107,7 @@ const dataSlice = createSlice({
       state.users.unshift(action.payload)
     },
     dispatchDataUsersRemove: (state, action) => {
-      state.users = state.users.filter((x) => x.dana.nickname !== action.payload)
+      state.users = state.users.filter((x) => x.model !== action.payload || x.dana.nickname !== action.payload)
     },
     dispatchDataDevices: (state, action) => {
       state.devices = action.payload
