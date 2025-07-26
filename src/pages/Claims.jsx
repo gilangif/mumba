@@ -24,7 +24,9 @@ export default function Claims() {
 
   const [claims, setClaims] = useState([])
   const [board, setBoard] = useState([])
+
   const [today, setToday] = useState([])
+
 
   useEffect(() => {
     const getClaims = async () => {
@@ -51,6 +53,7 @@ export default function Claims() {
               .reduce((a, b) => a + b),
           ]
         })
+
 
         const today = Array.from(new Set(data))
           .filter((x) => isToday(x.date))
@@ -93,6 +96,7 @@ export default function Claims() {
       <div className="px-3 py-4">
         <h5>Today board:</h5>
         <p className="fw-bold text-8">Rp.{new Intl.NumberFormat("id-ID").format(today)}</p>
+
         <div className="py-3 mb-2">
           <ul className="px-4">
             {board

@@ -128,6 +128,7 @@ export default function Group() {
 
   return (
     <>
+
       <ModalGroupChecker />
 
       {loading && (
@@ -162,6 +163,7 @@ export default function Group() {
               <span className="fw-bold">Tips:</span> double-tap on an image to mark, and double-tap on the card body to remove it.
             </p>
           </div>
+
           <div className="column-wrapper">
             {groups.map((x, index) => (
               <div key={index} className="mb-3" style={{ breakInside: "avoid" }}>

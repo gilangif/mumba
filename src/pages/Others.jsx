@@ -64,7 +64,6 @@ export default function Others() {
 
       const target = match[1]
       const discuss = mode === 2 ? true : false
-      console.log("📢[:67]: ", discuss)
 
       const { data } = await axios.post(API + "/browser/telegram/standby", { target, discuss })
       const { id, url, pages, buffer, message } = data
@@ -79,7 +78,7 @@ export default function Others() {
         return Swal.fire({
           title: "Success",
           text: message,
-          html: `<img src="${base64}" style="width: 100%; max-width: 200px; height: auto; max-height: 200px; object-fit: contain;" />`,
+          html: `<img src="${base64}" style="width: 100%; max-width: 200px; height: auto; max-height: 200px; object-fit: contain;" />`
         })
       }
 
