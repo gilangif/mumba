@@ -142,8 +142,12 @@ export default function Claims() {
                 const amount = new Intl.NumberFormat("id-ID").format(x[1].today)
 
                 return (
-                  <li className="text-8" key={i}>
-                    <span className={`fw-bold ${x[0] === username ? "text-warning" : ""}`}>{x[0]}</span>: Rp.{role === "admin" || x[0] === username ? amount : amount.toString().replace(/./g, "*")}
+                  <li className="text-8 mb-2" key={i}>
+                    <span className={`fw-bold ${x[0] === username ? "text-warning" : ""}`}>{x[0]}</span>:
+                    <ul>
+                      <li className="text-8"> {x[1].member} member</li>
+                      <li className="text-8"> amount Rp.{role === "admin" || x[0] === username ? amount : amount.toString().replace(/./g, "*")}</li>
+                    </ul>
                   </li>
                 )
               })}
