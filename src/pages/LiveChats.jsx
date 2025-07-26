@@ -93,7 +93,7 @@ export default function LiveChats() {
         {chats.map((x, i) => (
           <ChatBubbleReceived
             key={`${x.account}_${x.className}_${x.id}_${x.group.id}`}
-            objectname={x.objectname}
+            accountkey={x.key}
             sender={x.name}
             title={x.group.title}
             chat={x.chat}

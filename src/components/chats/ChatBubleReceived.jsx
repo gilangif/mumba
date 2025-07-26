@@ -19,50 +19,47 @@ function parseMessage(text) {
   })
 }
 
-export default function ChatBubbleReceived({ sender, title, objectname, chat, time, group }) {
+export default function ChatBubbleReceived({ sender, title, accountkey, chat, time, group }) {
   const theme = useSelector((state) => state.theme)
   const message = parseMessage(chat)
 
   const background =
-    objectname === "one"
-      ? "bg-dark"
-      : objectname === "two"
+    accountkey === "one"
+      ? "bg-success"
+      : accountkey === "two"
       ? "bg-warning"
-      : objectname === "three"
+      : accountkey === "three"
       ? "bg-info"
-      : objectname === "four"
+      : accountkey === "four"
       ? "bg-danger"
-      : objectname === "five"
+      : accountkey === "five"
       ? "bg-light"
-      : objectname === "six"
+      : accountkey === "six"
       ? "bg-success"
       : "bg-black"
 
   const color =
-    objectname === "one"
+    accountkey === "one"
       ? "text-light"
-      : objectname === "two"
+      : accountkey === "two"
       ? "text-dark"
-      : objectname === "three"
+      : accountkey === "three"
       ? "text-light"
-      : objectname === "four"
+      : accountkey === "four"
       ? "text-dark"
-      : objectname === "five"
+      : accountkey === "five"
       ? "text-danger"
-      : objectname === "six"
+      : accountkey === "six"
       ? "text-light"
       : "text-light"
 
-  const account = objectname === "one" ? 1 : objectname === "two" ? 2 : objectname === "three" ? 3 : objectname === "four" ? 4 : objectname === "five" ? 5 : objectname === "six" ? 6 : 7
+  const account = accountkey === "one" ? 1 : accountkey === "two" ? 2 : accountkey === "three" ? 3 : accountkey === "four" ? 4 : accountkey === "five" ? 5 : accountkey === "six" ? 6 : 7
 
   return (
     <div className="d-flex my-2 gap-3 px-3 w-100">
       <div className="d-flex align-items-end">
         <div className="d-flex align-items-center justify-content-center" style={{ width: "40px", height: "40px" }}>
-          <div
-            className={`d-flex align-items-center justify-content-center fw-bold img-fluid text-uppercase ${background} ${color} w-100 h-100`}
-            style={{ borderRadius: "100%", fontSize: "1rem", boxShadow: `-1px 0px 8px 2px ${theme.mode === "dark" ? "rgba(133, 128, 128, 0.45)" : "rgba(2, 1, 1, 0.6)"}` }}
-          >
+          <div className={`d-flex align-items-center justify-content-center fw-bold img-fluid text-uppercase ${background} ${color} w-100 h-100`} style={{ borderRadius: "100%", fontSize: "1rem" }}>
             {account}
           </div>
         </div>
