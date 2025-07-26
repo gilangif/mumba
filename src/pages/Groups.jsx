@@ -106,7 +106,7 @@ export default function Group() {
         setGroups(recomendation.data)
         setPagination(recomendation.pagination)
       } catch (err) {
-        const message = err.response && err.response.data.message ? err.response.data.message : "Internal Server Error"
+        const message = err.response?.data?.message || "Internal Server Error"
 
         toast.error(message, {
           position: "top-right",
