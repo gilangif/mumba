@@ -228,7 +228,7 @@ export default function CardUser({ image, nickname, community, creator, alipay, 
                 e.target.onerror = null
                 e.target.src = "https://storage.googleapis.com/storage-ajaib-prd-coin-wp-artifact/2023/06/pepe-coin.webp"
               }}
-              style={{ filter: username !== creator ? "grayscale(100%)" : ""}}
+              style={{ filter: username !== creator ? "grayscale(100%)" : "" }}
             />
           </div>
           <div className="d-flex flex-column justify-content-center gap-1">
@@ -238,7 +238,7 @@ export default function CardUser({ image, nickname, community, creator, alipay, 
             <p className="text-7 text-truncate m-0" style={{ maxWidth: "260px" }}>
               {community} {creator}
             </p>
-            <p className="fw-bold text-6 m-0">Rp.{balance}</p>
+            <p className={`fw-bold text-6 m-0 ${balance === "Unauthorized" || balance === "invalid" ? "text-danger" : ""}`}>Rp.{balance}</p>
           </div>
         </div>
 
