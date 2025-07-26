@@ -21,12 +21,13 @@ export default function Claims() {
 
   const HOST = useSelector((state) => state.user.HOST)
   const role = useSelector((state) => state.user.role)
+  const username = useSelector((state) => state.user.username)
 
   const [claims, setClaims] = useState([])
   const [board, setBoard] = useState([])
 
-  const [today, setToday] = useState([])
-
+  const [today, setToday] = useState(0)
+  const [creators, setCreators] = useState([])
 
   useEffect(() => {
     const getClaims = async () => {
@@ -46,14 +47,30 @@ export default function Claims() {
         const models = Array.from(new Set(data.map((x) => x.model))).map((model) => {
           return [
             model,
-            data
-              .filter((x) => x.model === model)
-              .filter((x) => isToday(x.date))
-              .map((x) => x.amount)
-              .reduce((a, b) => a + b),
+            {
+              community: data.find((x) => x.model === model).community,
+              today: data
+                .filter((x) => x.model === model)
+                .filter((x) => isToday(x.date))
+                .map((x) => x.amount)
+                .reduce((a, b) => a + b),
+            },
           ]
         })
 
+        const creators = Array.from(new Set(data.map((x) => x.community))).map((community) => {
+          return [
+            community,
+            {
+              member: Array.from(new Set(data.filter((x) => x.community === community).map((x) => x.model))).length,
+              today: data
+                .filter((x) => x.community === community)
+                .filter((x) => isToday(x.date))
+                .map((x) => x.amount)
+                .reduce((a, b) => a + b),
+            },
+          ]
+        })
 
         const today = Array.from(new Set(data))
           .filter((x) => isToday(x.date))
@@ -62,6 +79,7 @@ export default function Claims() {
 
         setToday(today)
         setBoard(models)
+        setCreators(creators)
       } catch (err) {
         const status = err.status && typeof err.status === "number" ? err.status : err.response && err.response.status ? err.response.status : 500
         const message = err.response && err.response.data.message ? err.response.data.message : "Internal Server Error"
@@ -102,11 +120,30 @@ export default function Claims() {
             {board
               .sort((a, b) => b[1] - a[1])
               .map((x, i) => {
-                const amount = new Intl.NumberFormat("id-ID").format(x[1])
+                const amount = new Intl.NumberFormat("id-ID").format(x[1].today)
 
                 return (
                   <li className="text-8" key={i}>
-                    <span className="fw-bold">{x[0]}</span>: Rp.{role === "admin" ? amount : amount.toString().replace(/./g, "*")}
+                    <span className={`fw-bold ${x[1].community === username ? "text-warning" : ""}`}>{x[0]}</span>: Rp.
+                    {role === "admin" || x.community === username ? amount : amount.toString().replace(/./g, "*")}
+                  </li>
+                )
+              })}
+          </ul>
+        </div>
+
+        <h5>Today board by creator:</h5>
+
+        <div className="py-3 mb-2">
+          <ul className="px-4">
+            {creators
+              .sort((a, b) => b[1].today - a[1].today)
+              .map((x, i) => {
+                const amount = new Intl.NumberFormat("id-ID").format(x[1].today)
+
+                return (
+                  <li className="text-8" key={i}>
+                    <span className="fw-bold">{x[0]}</span>: Rp.{role === "admin" || x.community === username ? amount : amount.toString().replace(/./g, "*")}
                   </li>
                 )
               })}
@@ -138,6 +175,12 @@ export default function Claims() {
                   GROUP
                 </th>
                 <th className={`${background} ${color}`} scope="col">
+                  AMOUNT
+                </th>
+                <th className={`${background} ${color}`} scope="col">
+                  CREATOR
+                </th>
+                <th className={`${background} ${color}`} scope="col">
                   DATE
                 </th>
               </tr>
@@ -156,6 +199,8 @@ export default function Claims() {
                     </td>
                     <td className={`text-8 align-middle ${background} ${color}`}>{x.orderId}</td>
                     <td className={`text-8 align-middle ${background} ${color}`}>{x.title}</td>
+                    <td className={`text-8 align-middle ${background} ${color}`}>{x.amount}</td>
+                    <td className={`text-8 align-middle ${background} ${color}`}>{x.community}</td>
                     <td className={`text-8 align-middle ${background} ${color}`}>{timestamp(x.date)}</td>
                   </tr>
                 )

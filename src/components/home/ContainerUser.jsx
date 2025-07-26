@@ -23,7 +23,7 @@ export default function ContainerUser() {
       try {
         const accessToken = localStorage.getItem("accessToken")
         const { data } = await axios.get(HOST + "/users/dana", { headers: { Authorization: `Bearer ${accessToken}` } })
-        
+
         dispatch(
           dispatchDataUsers(
             data.reverse().sort((a, b) => {
@@ -94,6 +94,7 @@ export default function ContainerUser() {
               <CardUser
                 image={x.dana.avatarUrl}
                 nickname={x.dana.nickname}
+                model={x.model}
                 community="member"
                 creator={x.creator}
                 alipay={x.ALIPAYJSESSIONID}
