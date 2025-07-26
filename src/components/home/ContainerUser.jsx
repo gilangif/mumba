@@ -14,6 +14,7 @@ export default function ContainerUser() {
 
   const HOST = useSelector((state) => state.user.HOST)
   const users = useSelector((state) => state.data.users)
+  const username = useSelector((state) => state.user.username)
 
   const [isError, setIsError] = useState(false)
 
@@ -22,13 +23,22 @@ export default function ContainerUser() {
       try {
         const accessToken = localStorage.getItem("accessToken")
         const { data } = await axios.get(HOST + "/users/dana", { headers: { Authorization: `Bearer ${accessToken}` } })
-        dispatch(dispatchDataUsers(data.reverse()))
+        
+        dispatch(
+          dispatchDataUsers(
+            data.reverse().sort((a, b) => {
+              if (a.creator === username && b.creator !== username) return -1
+              if (a.creator !== username && b.creator === username) return 1
+              return 0
+            })
+          )
+        )
       } catch (err) {
         const status = err.status && typeof err.status === "number" ? err.status : err.response && err.response.status ? err.response.status : 500
         const message = err.response && err.response.data.message ? err.response.data.message : "Internal Server Error"
 
         setIsError(true)
-        
+
         toast.error(message, {
           position: "top-right",
           autoClose: 1500,
