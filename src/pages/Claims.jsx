@@ -1,3 +1,5 @@
+import { dispatchLogout } from "../store/store"
+
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
@@ -5,6 +7,7 @@ import { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 
 import ContainerLoading from "../components/ContainerLoading"
+
 import timestamp from "../utils/timestamp"
 
 import axios from "axios"
@@ -21,6 +24,7 @@ export default function Claims() {
 
   const [claims, setClaims] = useState([])
   const [board, setBoard] = useState([])
+  const [today, setToday] = useState([])
 
   useEffect(() => {
     const getClaims = async () => {
@@ -48,6 +52,12 @@ export default function Claims() {
           ]
         })
 
+        const today = Array.from(new Set(data))
+          .filter((x) => isToday(x.date))
+          .map((x) => x.amount)
+          .reduce((a, b) => a + b)
+
+        setToday(today)
         setBoard(models)
       } catch (err) {
         const status = err.status && typeof err.status === "number" ? err.status : err.response && err.response.status ? err.response.status : 500
@@ -82,6 +92,7 @@ export default function Claims() {
     <>
       <div className="px-3 py-4">
         <h5>Today board:</h5>
+        <p className="fw-bold text-8">Rp.{new Intl.NumberFormat("id-ID").format(today)}</p>
         <div className="py-3 mb-2">
           <ul className="px-4">
             {board

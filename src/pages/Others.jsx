@@ -79,8 +79,7 @@ export default function Others() {
         return Swal.fire({
           title: "Success",
           text: message,
-          imageUrl: base64,
-          imageWidth: 400,
+          html: `<img src="${base64}" style="width: 100%; max-width: 200px; height: auto; max-height: 200px; object-fit: contain;" />`,
         })
       }
 
