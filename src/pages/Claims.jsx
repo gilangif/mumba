@@ -70,7 +70,7 @@ export default function Claims() {
           position: "top-right",
           autoClose: 1500,
           hideProgressBar: true,
-          closeOnClick: false,
+          closeOnClick: true,
           pauseOnHover: false,
           draggable: true,
           progress: undefined,

@@ -68,6 +68,8 @@ export default function CardUser({ image, nickname, community, creator, alipay, 
   const [sheet, setSheet] = useState(false)
   const [duration, setDuration] = useState("00:00:00")
 
+  const username = useSelector((state) => state.user.username)
+
   const theme = useSelector((state) => state.theme)
   const { mode, background, color } = theme
 
@@ -218,7 +220,16 @@ export default function CardUser({ image, nickname, community, creator, alipay, 
       <div className="w-100 d-flex align-items-center justify-content-between px-2 py-2" style={style.userSelect}>
         <div className="d-flex gap-3">
           <div className="d-flex justify-content-center align-items-center p-1" style={style.listThumbContainer}>
-            <img src={image || img} alt={image || img} className="img-square" />
+            <img
+              src={image || img}
+              alt={image || img}
+              className="img-square"
+              onError={(e) => {
+                e.target.onerror = null
+                e.target.src = "https://storage.googleapis.com/storage-ajaib-prd-coin-wp-artifact/2023/06/pepe-coin.webp"
+              }}
+              style={{ filter: username !== creator ? "grayscale(100%)" : ""}}
+            />
           </div>
           <div className="d-flex flex-column justify-content-center gap-1">
             <p className="fw-bold text-truncate m-0" style={{ maxWidth: "260px" }}>
