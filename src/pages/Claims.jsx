@@ -125,7 +125,7 @@ export default function Claims() {
                 return (
                   <li className="text-8" key={i}>
                     <span className={`fw-bold ${x[1].community === username ? "text-warning" : ""}`}>{x[0]}</span>: Rp.
-                    {role === "admin" || x.community === username ? amount : amount.toString().replace(/./g, "*")}
+                    {role === "admin" || x[1].community === username ? amount : amount.toString().replace(/./g, "*")}
                   </li>
                 )
               })}
@@ -143,7 +143,7 @@ export default function Claims() {
 
                 return (
                   <li className="text-8" key={i}>
-                    <span className="fw-bold">{x[0]}</span>: Rp.{role === "admin" || x.community === username ? amount : amount.toString().replace(/./g, "*")}
+                    <span className={`fw-bold ${x[0] === username ? "text-warning" : ""}`}>{x[0]}</span>: Rp.{role === "admin" || x[0] === username ? amount : amount.toString().replace(/./g, "*")}
                   </li>
                 )
               })}
