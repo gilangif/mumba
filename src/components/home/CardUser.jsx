@@ -164,7 +164,6 @@ export default function CardUser({ image, model, nickname, community, creator, a
 
       const accessToken = localStorage.getItem("accessToken")
       const { data } = await axios.post(HOST + "/users/dana/remove", { model }, { headers: { Authorization: `Bearer ${accessToken}` } })
-      console.log("📢[:167]: ", data)
       const { message } = data
 
       dispatch(dispatchDataUsersRemove(model))
@@ -181,7 +180,6 @@ export default function CardUser({ image, model, nickname, community, creator, a
         theme: "colored",
       })
     } catch (err) {
-      console.log("📢[:184]: ", err)
       const status = err.status && typeof err.status === "number" ? err.status : err.response && err.response.status ? err.response.status : 500
       const message = err.response && err.response.data.message ? err.response.data.message : "Internal Server Error"
 
