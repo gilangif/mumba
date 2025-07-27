@@ -118,7 +118,7 @@ export default function Claims() {
         <div className="py-3 mb-2">
           <ul className="px-4">
             {board
-              .sort((a, b) => b[1] - a[1])
+              .sort((a, b) => b[1].today - a[1].today)
               .map((x, i) => {
                 const amount = new Intl.NumberFormat("id-ID").format(x[1].today)
 

@@ -78,7 +78,7 @@ export default function Others() {
         return Swal.fire({
           title: "Success",
           text: message,
-          html: `<img src="${base64}" style="width: 100%; max-width: 200px; height: auto; max-height: 200px; object-fit: contain;" />`
+          html: `<img src="${base64}" style="width: 100%; max-width: 200px; height: auto; max-height: 200px; object-fit: contain;" />`,
         })
       }
 
@@ -183,7 +183,7 @@ export default function Others() {
   }, [])
 
   return (
-    <div className="container mt-3">
+    <div className="container mt-3" style={{ paddingBottom: "80px" }}>
       <form onSubmit={handleSubmit}>
         <div className="px-1">
           <div className="form-floating">
