@@ -1,9 +1,8 @@
 import { dispatchLogout } from "../store/store"
 
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-
 import { toast } from "react-toastify"
 
 import ContainerLoading from "../components/ContainerLoading"
@@ -11,6 +10,47 @@ import ContainerLoading from "../components/ContainerLoading"
 import timestamp from "../utils/timestamp"
 
 import axios from "axios"
+
+const Pagination = ({ page, pages, onPageChange }) => {
+  const getPageNumbers = () => {
+    const visiblePages = 3
+    let start = Math.max(1, page - Math.floor(visiblePages / 2))
+    let end = start + visiblePages - 1
+
+    if (end > pages) {
+      end = pages
+      start = Math.max(1, end - visiblePages + 1)
+    }
+
+    const data = []
+
+    for (let i = start; i <= end; i++) {
+      data.push(i)
+    }
+
+    return data
+  }
+
+  return (
+    <div className="d-flex justify-content-center align-items-center">
+      <div className="d-flex dlex-row gap-2 py-3">
+        <button onClick={() => onPageChange(page - 1)} disabled={page === 1} className={`px-3 py-1 border rounded ${page === 1 ? "d-none" : ""}`}>
+          PREV
+        </button>
+
+        {getPageNumbers().map((num) => (
+          <button key={num} onClick={() => onPageChange(num)} className={`px-3 py-1 border-0 rounded ${num === page ? "text-warning fw-bold" : ""}`}>
+            {num}
+          </button>
+        ))}
+
+        <button onClick={() => onPageChange(page + 1)} disabled={page === pages} className={`px-3 py-1 border rounded ${page === pages ? "d-none" : ""}`}>
+          NEXT
+        </button>
+      </div>
+    </div>
+  )
+}
 
 export default function Claims() {
   const dispatch = useDispatch()
@@ -23,89 +63,101 @@ export default function Claims() {
   const role = useSelector((state) => state.user.role)
   const username = useSelector((state) => state.user.username)
 
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [pages, setPages] = useState(1)
+  const [page, setPage] = useState(parseInt(searchParams.get("page") || "1", 10))
+
   const [claims, setClaims] = useState([])
   const [board, setBoard] = useState([])
 
   const [today, setToday] = useState(0)
   const [creators, setCreators] = useState([])
 
-  useEffect(() => {
-    const getClaims = async () => {
-      try {
-        const accessToken = localStorage.getItem("accessToken")
-        const { data } = await axios.get(HOST + "/claims", { headers: { Authorization: `Bearer ${accessToken}` } })
+  const getClaims = async () => {
+    try {
+      const { data: detail } = await axios.get(HOST + "/claims", { headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` }, params: { page, limit: 100 } })
+      const { data, total, page: currentPage, pages: totalPages } = detail
 
-        setClaims(data)
+      setClaims(data)
+      setPages(totalPages)
+      setPage(currentPage)
 
-        const isToday = (someDate) => {
-          const today = new Date()
-          const date = new Date(someDate)
+      setClaims(data)
 
-          return date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate()
-        }
+      const isToday = (someDate) => {
+        const today = new Date()
+        const date = new Date(someDate)
 
-        const models = Array.from(new Set(data.map((x) => x.model))).map((model) => {
-          return [
-            model,
-            {
-              community: data.find((x) => x.model === model).community,
-              today: data
-                .filter((x) => x.model === model)
-                .filter((x) => isToday(x.date))
-                .map((x) => x.amount)
-                .reduce((a, b) => a + b),
-            },
-          ]
-        })
-
-        const creators = Array.from(new Set(data.map((x) => x.community))).map((community) => {
-          return [
-            community,
-            {
-              member: Array.from(new Set(data.filter((x) => x.community === community).map((x) => x.model))).length,
-              today: data
-                .filter((x) => x.community === community)
-                .filter((x) => isToday(x.date))
-                .map((x) => x.amount)
-                .reduce((a, b) => a + b),
-            },
-          ]
-        })
-
-        const today = Array.from(new Set(data))
-          .filter((x) => isToday(x.date))
-          .map((x) => x.amount)
-          .reduce((a, b) => a + b)
-
-        setToday(today)
-        setBoard(models)
-        setCreators(creators)
-      } catch (err) {
-        const status = err.status && typeof err.status === "number" ? err.status : err.response && err.response.status ? err.response.status : 500
-        const message = err.response && err.response.data.message ? err.response.data.message : "Internal Server Error"
-
-        toast.error(message, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          onClose: () => {
-            if (status === 401) {
-              localStorage.clear()
-              dispatch(dispatchLogout())
-              navigate("/login", { replace: true })
-            }
-          },
-        })
+        return date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate()
       }
-    }
 
+      const models = Array.from(new Set(data.map((x) => x.model))).map((model) => {
+        return [
+          model,
+          {
+            community: data.find((x) => x.model === model).community,
+            today: data
+              .filter((x) => x.model === model)
+              .filter((x) => isToday(x.date))
+              .map((x) => x.amount)
+              .reduce((a, b) => a + b),
+          },
+        ]
+      })
+
+      const creators = Array.from(new Set(data.map((x) => x.community))).map((community) => {
+        return [
+          community,
+          {
+            member: Array.from(new Set(data.filter((x) => x.community === community).map((x) => x.model))).length,
+            today: data
+              .filter((x) => x.community === community)
+              .filter((x) => isToday(x.date))
+              .map((x) => x.amount)
+              .reduce((a, b) => a + b),
+          },
+        ]
+      })
+
+      const today = Array.from(new Set(data))
+        .filter((x) => isToday(x.date))
+        .map((x) => x.amount)
+        .reduce((a, b) => a + b)
+
+      setToday(today)
+      setBoard(models)
+      setCreators(creators)
+    } catch (err) {
+      const status = err.status && typeof err.status === "number" ? err.status : err.response && err.response.status ? err.response.status : 500
+      const message = err.response && err.response.data.message ? err.response.data.message : "Internal Server Error"
+
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        onClose: () => {
+          if (status === 401) {
+            localStorage.clear()
+            dispatch(dispatchLogout())
+            navigate("/login", { replace: true })
+          }
+        },
+      })
+    }
+  }
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams)
+    params.set("page", page)
+
+    setSearchParams(params)
     getClaims()
-  }, [])
+  }, [page])
 
   if (claims.length === 0) return <ContainerLoading note="Claim data empty" />
 
@@ -156,7 +208,11 @@ export default function Claims() {
 
         <h5>Claim lists:</h5>
 
-        <div className="table-responsive hide-scroll">
+        <div>
+          <Pagination page={page} pages={pages} onPageChange={setPage} />
+        </div>
+
+        <div className="table-responsive hide-scroll" style={{ paddingBottom: "180px", marginBottom: "100px" }}>
           <table className={`table table-sm table-hover ext-nowrap mt-3 ${background} ${color}`}>
             <thead>
               <tr>
@@ -185,6 +241,9 @@ export default function Claims() {
                   CREATOR
                 </th>
                 <th className={`${background} ${color}`} scope="col">
+                  TYPE
+                </th>
+                <th className={`${background} ${color}`} scope="col">
                   DATE
                 </th>
               </tr>
@@ -204,7 +263,8 @@ export default function Claims() {
                     <td className={`text-8 align-middle ${background} ${color}`}>{x.orderId}</td>
                     <td className={`text-8 align-middle ${background} ${color}`}>{x.title}</td>
                     <td className={`text-8 align-middle ${background} ${color}`}>{x.amount}</td>
-                    <td className={`text-8 align-middle ${background} ${color}`}>{x.community}</td>
+                    <td className={`text-8 align-middle ${background} ${color}`}>{x.creator}</td>
+                    <td className={`text-8 align-middle ${background} ${color}`}>{x.type}</td>
                     <td className={`text-8 align-middle ${background} ${color}`}>{timestamp(x.date)}</td>
                   </tr>
                 )
