@@ -1,4 +1,4 @@
-import { dispatchDataUsers } from "../../store/store"
+import { dispatchDataUsers, dispatchLogout } from "../../store/store"
 
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
