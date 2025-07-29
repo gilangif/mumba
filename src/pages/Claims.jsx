@@ -291,7 +291,7 @@ function StatementBoardModel({ statement }) {
                 </span>
                 <span className="text-9 px-2">
                   Rp.{" "}
-                  {key === username || role === "admin"
+                  {key === username || role === "admin" || value && value.creator && value.creator === username
                     ? new Intl.NumberFormat("id-ID").format(value.today.amount || 0)
                     : value.today.amount
                         .toString()
