@@ -100,13 +100,13 @@ function ModalMonthTable() {
             <h5>{title}</h5>
             <span>
               Rp.
-              {creator && creator === username || role === "admin"
+              {(creator && creator === username) || role === "admin"
                 ? new Intl.NumberFormat("id-ID").format(amount || 0)
-                : amount
+                : amount  ? amount
                     .toString()
                     .split("")
                     .map((x) => "*")
-                    .join("")}{" "}
+                    .join("") : ""}{" "}
               ({total} transaction)
             </span>
           </div>
@@ -127,7 +127,7 @@ function ModalMonthTable() {
                         <td className="text-8 align-middle">{x.date}</td>
                         <td className="text-8 align-middle">
                           Rp.
-                          {creator && creator === username || role === "admin"
+                          {(creator && creator === username) || role === "admin"
                             ? new Intl.NumberFormat("id-ID").format(x.amount || 0)
                             : x.amount
                                 .toString()
@@ -307,7 +307,6 @@ function StatementBoardModel({ statement }) {
 }
 
 export default function Claims() {
-  const now = new Date().toISOString().split("T")[0]
 
   const theme = useSelector((state) => state.theme)
   const { mode, background, color } = theme
@@ -320,8 +319,8 @@ export default function Claims() {
 
   const [claims, setClaims] = useState([])
 
-  const [selectedDate, setSelectedDate] = useState(searchParams.get("date") || now)
-  const [selectedDateStatement, setSelectedDateStatement] = useState(now)
+  const [selectedDate, setSelectedDate] = useState(searchParams.get("date"))
+  const [selectedDateStatement, setSelectedDateStatement] = useState()
   const [selectedModel, setSelectedModel] = useState("")
   const [selectedCreator, setSelectedCreator] = useState("")
   const [selectedType, setSelectedType] = useState("")
@@ -414,7 +413,7 @@ export default function Claims() {
       <ModalMonthTable />
 
       <div className="px-3 py-4">
-        <div class="py-2 mb-4">
+        <div className="py-2 mb-4">
           <input
             type="date"
             className="form-control"
@@ -435,9 +434,9 @@ export default function Claims() {
           <Pagination page={page} pages={pages} onPageChange={setPage} />
         </div>
 
-        <div class="row my-3">
-          <div class="col">
-            <select class="form-control form-control" value={selectedModel} onChange={(e) => setSelectedModel(e.target.value)}>
+        <div className="row my-3">
+          <div className="col">
+            <select className="form-control form-control" value={selectedModel} onChange={(e) => setSelectedModel(e.target.value)}>
               <option value="">MODEL</option>
               {statement &&
                 statement.models &&
@@ -450,8 +449,8 @@ export default function Claims() {
                 })}
             </select>
           </div>
-          <div class="col">
-            <select class="form-control form-control" value={selectedCreator} onChange={(e) => setSelectedCreator(e.target.value)}>
+          <div className="col">
+            <select className="form-control form-control" value={selectedCreator} onChange={(e) => setSelectedCreator(e.target.value)}>
               <option value="">CREATOR</option>
               {statement &&
                 statement.creators &&
@@ -467,15 +466,15 @@ export default function Claims() {
         </div>
 
         <div className="row my-3">
-          <div class="col">
-            <select class="form-control form-control" value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
+          <div className="col">
+            <select className="form-control form-control" value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
               <option value="">TYPE</option>
               <option value="device">DEVICE</option>
               <option value="socket">SOCKET</option>
             </select>
           </div>
-          <div class="col">
-            <select class="form-control form-control" value={selectedSort} onChange={(e) => setSelectedSort(e.target.value)}>
+          <div className="col">
+            <select className="form-control form-control" value={selectedSort} onChange={(e) => setSelectedSort(e.target.value)}>
               <option value="">SORT</option>
               <option value="asc">ASC</option>
               <option value="desc">DESC</option>
@@ -484,7 +483,7 @@ export default function Claims() {
         </div>
 
         <div className="row my-3">
-          <div class="col">
+          <div className="col">
             <input
               type="date"
               className="form-control"
@@ -514,7 +513,7 @@ export default function Claims() {
           </div>
         </div>
 
-        <div className="table-responsive hide-scroll" style={{ paddingBottom: "180px", marginBottom: "100px" }}>
+        <div className="table-responsive hide-scroll" style={{ paddingBottom: "80px" }}>
           <table className={`table table-sm table-hover ext-nowrap mt-3 ${background} ${color}`}>
             <thead>
               <tr>
