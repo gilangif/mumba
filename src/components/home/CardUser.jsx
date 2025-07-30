@@ -232,7 +232,7 @@ export default function CardUser({ image, model, nickname, community, creator, a
             />
           </div>
           <div className="d-flex flex-column justify-content-center gap-1">
-            <p className="fw-bold text-truncate m-0" style={{ maxWidth: "260px" }}>
+            <p className="fw-bold text-truncate m-0" style={{ maxWidth: "200px", overflowWrap: "break-word", wordBreak: "break-word" }}>
               {nickname}
             </p>
             <p className="text-7 text-truncate m-0" style={{ maxWidth: "260px" }}>

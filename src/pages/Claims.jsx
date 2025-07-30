@@ -39,11 +39,27 @@ function Pagination({ page, pages, onPageChange }) {
           PREV
         </button>
 
+        {page > 3 ? (
+          <button onClick={() => onPageChange(1)} className={`px-3 py-1 border-0 rounded`}>
+            1
+          </button>
+        ) : (
+          ""
+        )}
+
         {getPageNumbers().map((num) => (
           <button key={num} onClick={() => onPageChange(num)} className={`px-3 py-1 border-0 rounded ${num === page ? "text-danger fw-bold" : ""}`}>
             {num}
           </button>
         ))}
+
+        {page >= 3 && page < pages - 3 ? (
+          <button onClick={() => onPageChange(pages)} className={`px-3 py-1 border-0 rounded`}>
+            {pages}
+          </button>
+        ) : (
+          ""
+        )}
 
         <button onClick={() => onPageChange(page + 1)} disabled={page === pages || page <= 1} className={`px-3 py-1 border rounded ${page === pages || page <= 1 ? "d-none" : ""}`}>
           NEXT
@@ -102,11 +118,13 @@ function ModalMonthTable() {
               Rp.
               {(creator && creator === username) || role === "admin"
                 ? new Intl.NumberFormat("id-ID").format(amount || 0)
-                : amount  ? amount
+                : amount
+                ? amount
                     .toString()
                     .split("")
                     .map((x) => "*")
-                    .join("") : ""}{" "}
+                    .join("")
+                : ""}{" "}
               ({total} transaction)
             </span>
           </div>
@@ -291,7 +309,7 @@ function StatementBoardModel({ statement }) {
                 </span>
                 <span className="text-9 px-2">
                   Rp.{" "}
-                  {key === username || role === "admin" || value && value.creator && value.creator === username
+                  {key === username || role === "admin" || (value && value.creator && value.creator === username)
                     ? new Intl.NumberFormat("id-ID").format(value.today.amount || 0)
                     : value.today.amount
                         .toString()
@@ -307,7 +325,6 @@ function StatementBoardModel({ statement }) {
 }
 
 export default function Claims() {
-
   const theme = useSelector((state) => state.theme)
   const { mode, background, color } = theme
 
@@ -572,6 +589,9 @@ export default function Claims() {
               })}
             </tbody>
           </table>
+          <div>
+            <Pagination page={page} pages={pages} onPageChange={setPage} />
+          </div>
         </div>
       </div>
     </>
