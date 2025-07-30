@@ -99,7 +99,7 @@ export default function CardGroupRecommended({ url, photo, title, username, memb
 
       const group = { id: null, title: null, username: null, type: null, requestNeeded: false }
 
-      const arr = ["one", "two", "three", "four", "five", "six"].map(async (key) => {
+      const arr = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"].map(async (key) => {
         try {
           const { data: detail } = await axios.post(HOST + "/telegram/groups/detail", { key, inviteCode })
           const { id, className, title, username, requestNeeded, join, banned, channel, user, data } = detail
