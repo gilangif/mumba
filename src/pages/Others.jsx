@@ -9,6 +9,7 @@ import Swal from "sweetalert2"
 
 export default function Others() {
   const API = useSelector((state) => state.user.API)
+  const API_MASTER = useSelector((state) => state.user.API_MASTER)
 
   const [form, setForm] = useState("")
   const [mode, setMode] = useState("1")
@@ -65,7 +66,7 @@ export default function Others() {
       const target = match[1]
       const discuss = mode === 2 ? true : false
 
-      const { data } = await axios.post(API + "/browser/telegram/standby", { target, discuss })
+      const { data } = await axios.post(API_MASTER + "/browser/telegram/standby", { target, discuss })
       const { id, url, pages, buffer, message } = data
 
       setPages(pages)
@@ -111,7 +112,7 @@ export default function Others() {
 
   const handleAction = async (id, action) => {
     try {
-      const { data } = await axios.post(API + "/browser/pages", { id, action })
+      const { data } = await axios.post(API_MASTER + "/browser/pages", { id, action })
       const { buffer, message } = data
 
       if (action === "screenshot" && buffer) {
@@ -159,7 +160,7 @@ export default function Others() {
   useEffect(() => {
     const getPages = async () => {
       try {
-        const { data } = await axios.post(API.replace("3001", "3000") + "/browser/pages")
+        const { data } = await axios.post(API_MASTER + "/browser/pages")
 
         setPages(data.pages)
       } catch (err) {
