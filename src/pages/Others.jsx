@@ -68,7 +68,7 @@ export default function Others() {
       const { data } = await axios.post(API + "/browser/telegram/standby", { target, discuss })
       const { id, url, pages, buffer, message } = data
 
-      setPages([...pages, { id, url }])
+      setPages(pages)
 
       if (buffer) {
         const uint8Array = new Uint8Array(buffer.data)

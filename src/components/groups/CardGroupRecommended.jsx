@@ -61,7 +61,21 @@ function GroupCardSheetButton({ icon, title, onClick }) {
   )
 }
 
-export default function CardGroupRecommended({ url, photo, title, username, member, dana, joined, description, mark, files, photos, videos, links, preview }) {
+export default function CardGroupRecommended({ url, photo, title, username, member, dana, description, mark, files, photos, videos, links, preview, ...props }) {
+  const { one, two, three, four, five, six, seven, eight, nine } = props
+
+  const joined = []
+
+  if (one) joined.push("one")
+  if (two) joined.push("two")
+  if (three) joined.push("three")
+  if (four) joined.push("four")
+  if (five) joined.push("five")
+  if (six) joined.push("six")
+  if (seven) joined.push("seven")
+  if (eight) joined.push("eight")
+  if (nine) joined.push("nine")
+
   const dispatch = useDispatch()
 
   const [loading, setLoading] = useState(false)
@@ -247,7 +261,7 @@ export default function CardGroupRecommended({ url, photo, title, username, memb
                 )
               })}
 
-              {dana.length > 0 && (
+              {dana && (
                 <div className="text-white fw-bold bg-primary px-2 py-1 text-7" style={{ borderRadius: "0.6rem" }}>
                   contain dana
                 </div>
