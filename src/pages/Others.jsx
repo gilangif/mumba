@@ -64,7 +64,7 @@ export default function Others() {
       }
 
       const target = match[1]
-      const discuss = mode === 2 ? true : false
+      const discuss = mode === "2" ? true : false
 
       const { data } = await axios.post(API_MASTER + "/browser/telegram/standby", { target, discuss })
       const { id, url, pages, buffer, message } = data
