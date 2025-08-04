@@ -134,8 +134,9 @@ function ModalMonthTable() {
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">AMOUNT</th>
+                  <th scope="col">CLAIM</th>
                   <th scope="col">TOTAL</th>
-                  <th scope="col">%</th>
+                  <th scope="col">PERCENTAGE</th>
                 </tr>
 
                 {month &&
@@ -153,6 +154,7 @@ function ModalMonthTable() {
                                 .map((x) => "*")
                                 .join("")}
                         </td>
+                        <td className="text-8 align-middle">{x.claim}</td>
                         <td className="text-8 align-middle">{x.total}</td>
                         <td className="text-8 align-middle">{x.percentage}</td>
                       </tr>
@@ -336,7 +338,7 @@ export default function Claims() {
 
   const [claims, setClaims] = useState([])
 
-  const [selectedDate, setSelectedDate] = useState(searchParams.get("date"))
+  const [selectedDate, setSelectedDate] = useState(searchParams.get("date") || "")
   const [selectedDateStatement, setSelectedDateStatement] = useState()
   const [selectedModel, setSelectedModel] = useState("")
   const [selectedCreator, setSelectedCreator] = useState("")
