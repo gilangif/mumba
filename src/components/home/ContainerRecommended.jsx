@@ -71,7 +71,7 @@ export default function ContainerRecommended() {
   useEffect(() => {
     const getRecommendation = async () => {
       try {
-        const { data } = await axios.post(API + "/telegram/groups/recommendation?limit=20")
+        const { data } = await axios.get(API + "/telegram/groups/recommendation?limit=20&sort=desc&order=unmark")
 
         setGroups(data.data)
       } catch (err) {

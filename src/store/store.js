@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
   HOST: "http://128.199.70.155:80",
-  API: "http://128.199.70.155:3000",
+  API: "http://128.199.70.155:3001",
   accessToken: localStorage.getItem("accessToken") || "",
   username: localStorage.getItem("username") || "",
   name: localStorage.getItem("name") || "",
