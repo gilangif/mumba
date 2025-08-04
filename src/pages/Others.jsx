@@ -159,7 +159,7 @@ export default function Others() {
   useEffect(() => {
     const getPages = async () => {
       try {
-        const { data } = await axios.post(API + "/browser/pages")
+        const { data } = await axios.post(API.replace("3001", "3000") + "/browser/pages")
 
         setPages(data.pages)
       } catch (err) {
